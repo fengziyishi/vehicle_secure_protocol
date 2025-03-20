@@ -1,0 +1,32 @@
+[
+{
+  "directory": "D:/Users/Desktop/vehicle_secure_protocol/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DBOOST_SYSTEM_NO_LIB @CMakeFiles/vehicle_main.dir/includes_CXX.rsp  -static-libgcc -static-libstdc++ -g -std=gnu++17 -o CMakeFiles\\vehicle_main.dir\\src\\vehicle\\vehicle_main.cpp.obj -c D:\\Users\\Desktop\\vehicle_secure_protocol\\src\\vehicle\\vehicle_main.cpp",
+  "file": "D:/Users/Desktop/vehicle_secure_protocol/src/vehicle/vehicle_main.cpp",
+  "output": "CMakeFiles/vehicle_main.dir/src/vehicle/vehicle_main.cpp.obj"
+},
+{
+  "directory": "D:/Users/Desktop/vehicle_secure_protocol/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DBOOST_SYSTEM_NO_LIB @CMakeFiles/vehicle_main.dir/includes_CXX.rsp  -static-libgcc -static-libstdc++ -g -std=gnu++17 -o CMakeFiles\\vehicle_main.dir\\src\\crypto\\sm2_wrapper.cpp.obj -c D:\\Users\\Desktop\\vehicle_secure_protocol\\src\\crypto\\sm2_wrapper.cpp",
+  "file": "D:/Users/Desktop/vehicle_secure_protocol/src/crypto/sm2_wrapper.cpp",
+  "output": "CMakeFiles/vehicle_main.dir/src/crypto/sm2_wrapper.cpp.obj"
+},
+{
+  "directory": "D:/Users/Desktop/vehicle_secure_protocol/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DBOOST_SYSTEM_NO_LIB @CMakeFiles/vehicle_main.dir/includes_CXX.rsp  -static-libgcc -static-libstdc++ -g -std=gnu++17 -o CMakeFiles\\vehicle_main.dir\\src\\crypto\\sm3_wrapper.cpp.obj -c D:\\Users\\Desktop\\vehicle_secure_protocol\\src\\crypto\\sm3_wrapper.cpp",
+  "file": "D:/Users/Desktop/vehicle_secure_protocol/src/crypto/sm3_wrapper.cpp",
+  "output": "CMakeFiles/vehicle_main.dir/src/crypto/sm3_wrapper.cpp.obj"
+},
+{
+  "directory": "D:/Users/Desktop/vehicle_secure_protocol/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DBOOST_SYSTEM_NO_LIB @CMakeFiles/vehicle_main.dir/includes_CXX.rsp  -static-libgcc -static-libstdc++ -g -std=gnu++17 -o CMakeFiles\\vehicle_main.dir\\src\\crypto\\sm4_wrapper.cpp.obj -c D:\\Users\\Desktop\\vehicle_secure_protocol\\src\\crypto\\sm4_wrapper.cpp",
+  "file": "D:/Users/Desktop/vehicle_secure_protocol/src/crypto/sm4_wrapper.cpp",
+  "output": "CMakeFiles/vehicle_main.dir/src/crypto/sm4_wrapper.cpp.obj"
+},
+{
+  "directory": "D:/Users/Desktop/vehicle_secure_protocol/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DBOOST_SYSTEM_NO_LIB @CMakeFiles/vehicle_main.dir/includes_CXX.rsp  -static-libgcc -static-libstdc++ -g -std=gnu++17 -o CMakeFiles\\vehicle_main.dir\\src\\network\\secure_socket.cpp.obj -c D:\\Users\\Desktop\\vehicle_secure_protocol\\src\\network\\secure_socket.cpp",
+  "file": "D:/Users/Desktop/vehicle_secure_protocol/src/network/secure_socket.cpp",
+  "output": "CMakeFiles/vehicle_main.dir/src/network/secure_socket.cpp.obj"
+}
+]

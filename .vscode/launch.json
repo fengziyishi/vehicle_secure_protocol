@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Vehicle",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/vehicle_main.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {"name": "PATH", "value": "${env:PATH};C:/GmSSL/bin"}
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/msys/mingw64/bin/gdb.exe",
+            "setupCommands": [
+                {"text": "-enable-pretty-printing"}
+            ],
+            "preLaunchTask": "build"
+        },
+        {
+            "name": "Debug RSU",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/rsu_main.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {"name": "PATH", "value": "${env:PATH};C:/GmSSL/bin"}
+            ],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/msys/mingw64/bin/gdb.exe",
+            "setupCommands": [
+                {"text": "-enable-pretty-printing"}
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}
