@@ -1,64 +1,85 @@
-cmake_minimum_required(VERSION 3.25)
-cmake_policy(SET CMP0167 NEW)  # Boost策略
-cmake_policy(SET CMP0144 NEW)  # ROOT变量策略
-
-project(VehicleSecurityProtocol)
+cmake_minimum_required(VERSION 3.10)
+project(VehicleSecureProtocol LANGUAGES CXX)
 
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# 手动依赖路径配置
-set(GMSSL_ROOT "C:/gmssl")
-set(GMSSL_INCLUDE_DIRS "${GMSSL_ROOT}/include")
-set(GMSSL_LIBRARIES "${GMSSL_ROOT}/lib/libgmssl.a")
+# 配置调试符号
+set(CMAKE_BUILD_TYPE Debug)
 
-set(Boost_ROOT "C:/boost_1_87_0")
+# 设置输出目录
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-# Windows配置
-if(WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
-    set(SYSTEM_LIBS ws2_32)
-    
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
-    find_package(Threads REQUIRED)
-    list(APPEND SYSTEM_LIBS Threads::Threads)
-endif()
+# 查找依赖库
+find_package(Boost 1.66 REQUIRED COMPONENTS system)
+find_package(OpenSSL REQUIRED)
 
-# 现代Boost查找方式
-find_package(Boost 
-    REQUIRED 
-    COMPONENTS system 
-    CONFIG
-    NO_CMAKE_PACKAGE_REGISTRY
-    PATHS "${Boost_ROOT}"
-    NO_DEFAULT_PATH
+# 国密算法库配置（示例路径，需根据实际安装路径修改）
+set(GMSSL_ROOT "/opt/gmssl" CACHE PATH "GmSSL安装路径")
+find_library(GMSSL_LIB gmssl
+    PATHS ${GMSSL_ROOT}/lib
+    REQUIRED
+)
+find_path(GMSSL_INCLUDE_DIR gmssl/sm2.h
+    PATHS ${GMSSL_ROOT}/include
+    REQUIRED
 )
 
-# 诊断输出
-message(STATUS "GMSSL Path: ${GMSSL_ROOT}")
-message(STATUS "Boost Version: ${Boost_VERSION}")
-
+# 包含目录
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
-    ${GMSSL_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
+    ${OPENSSL_INCLUDE_DIR}
+    ${GMSSL_INCLUDE_DIR}
 )
 
-# 公共源码
-set(COMMON_SOURCES
-    src/crypto/sm2_wrapper.cpp
-    src/crypto/sm3_wrapper.cpp
-    src/crypto/sm4_wrapper.cpp
-    src/network/secure_socket.cpp
+# 收集源文件
+file(GLOB_RECURSE CRYPTO_SOURCES
+    "src/crypto/*.cpp"
 )
 
+file(GLOB_RECURSE NETWORK_SOURCES
+    "src/network/*.cpp"
+)
+
+# 构建RSU服务端可执行文件
+add_executable(rsu_main
+    src/rsu/rsu_main.cpp
+    ${CRYPTO_SOURCES}
+    ${NETWORK_SOURCES}
+    src/utils/logger.cpp
+)
+
+target_link_libraries(rsu_main
+    PRIVATE 
+    Boost::system
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    ${GMSSL_LIB}
+)
+
+# 构建车辆客户端可执行文件
 add_executable(vehicle_main
     src/vehicle/vehicle_main.cpp
-    ${COMMON_SOURCES}
+    ${CRYPTO_SOURCES}
+    ${NETWORK_SOURCES}
 )
+
 target_link_libraries(vehicle_main
-    ${GMSSL_LIBRARIES}
+    PRIVATE 
     Boost::system
-    ${SYSTEM_LIBS}
+    OpenSSL::SSL
+    OpenSSL::Crypto
+    ${GMSSL_LIB}
 )
+
+# 安装规则（可选）
+install(TARGETS rsu_main vehicle_main
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+

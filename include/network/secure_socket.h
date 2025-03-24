@@ -1,5 +1,5 @@
 #pragma once
-#include <C:/boost/include/boost-1_87/boost/asio.hpp>
+#include <boost/asio.hpp>  
 #include <vector>
 #include <memory>
 #include <boost/asio/ip/tcp.hpp>
@@ -15,17 +15,7 @@ public:
     using Ptr = std::shared_ptr<SecureSocket>;
     SecureSocket(boost::asio::io_context& io, Mode mode);
     boost::asio::ip::tcp::socket& socket() { return socket_; } // 允许外部访问socket
-    
-    // 连接模式枚举
-    enum class Mode {
-        V2V,    // 车车直连
-        V2I     // 车路通信
-    };
-
-    // 构造函数（传入io_context和运行模式）
-    SecureSocket(io::io_context& io, Mode mode);
-    
-    io::ip::tcp::socket& socket() { return socket_; }
+  
     // 异步连接（带回调函数）
     void async_connect(const std::string& ip, uint16_t port, 
                       std::function<void(bool)> callback);
@@ -56,7 +46,6 @@ private:
     decrypt_data(const std::vector<uint8_t>& ciphertext);
 
     // 成员变量
-    io::ip::tcp::socket socket_;
     Mode mode_;
     std::vector<uint8_t> session_key_;
     std::vector<uint8_t> iv_;

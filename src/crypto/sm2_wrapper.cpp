@@ -54,6 +54,7 @@ bool SM2Wrapper::verify(const std::vector<uint8_t>& public_key,
                       const std::vector<uint8_t>& message,
                       const std::vector<uint8_t>& signature) {
     SM2_KEY key;
+    memset(&key, 0, sizeof(SM2_KEY));
     SM2_VERIFY_CTX ctx;
 
     if (public_key.size() != PUBLIC_KEY_SIZE || 

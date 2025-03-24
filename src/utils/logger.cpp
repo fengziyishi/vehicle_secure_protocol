@@ -1,6 +1,10 @@
 #include "utils/logger.h"
 #include <iostream>
 
+void Logger::init(const std::string& filename, Level level) {
+    Logger::get().init_impl(filename, level); // 通过单例调用
+}
+
 void Logger::init_impl(const std::string& filename, Level level) {
     log_level_ = level;
     if (!filename.empty()) {

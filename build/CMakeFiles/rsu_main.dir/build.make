@@ -163,8 +163,6 @@ rsu_main.exe: CMakeFiles/rsu_main.dir/src/crypto/sm3_wrapper.cpp.obj
 rsu_main.exe: CMakeFiles/rsu_main.dir/src/crypto/sm4_wrapper.cpp.obj
 rsu_main.exe: CMakeFiles/rsu_main.dir/src/network/secure_socket.cpp.obj
 rsu_main.exe: CMakeFiles/rsu_main.dir/build.make
-rsu_main.exe: C:/gmssl/lib/libgmssl.a
-rsu_main.exe: C:/Users/Administrator/anaconda/Library/lib/libboost_system.lib
 rsu_main.exe: CMakeFiles/rsu_main.dir/linkLibs.rsp
 rsu_main.exe: CMakeFiles/rsu_main.dir/objects1.rsp
 rsu_main.exe: CMakeFiles/rsu_main.dir/link.txt

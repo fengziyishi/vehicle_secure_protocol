@@ -1410,6 +1410,42 @@
 			"value" : "C:/GmSSL"
 		},
 		{
+			"name" : "VehicleSecureProtocol_BINARY_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "D:/Users/Desktop/vehicle_secure_protocol/build"
+		},
+		{
+			"name" : "VehicleSecureProtocol_IS_TOP_LEVEL",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "ON"
+		},
+		{
+			"name" : "VehicleSecureProtocol_SOURCE_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Value Computed by CMake"
+				}
+			],
+			"type" : "STATIC",
+			"value" : "D:/Users/Desktop/vehicle_secure_protocol"
+		},
+		{
 			"name" : "VehicleSecurityProtocol_BINARY_DIR",
 			"properties" : 
 			[

@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 namespace sys = boost::system; // 简化命名空间别名
+namespace io = boost::asio; 
 using boost::asio::ip::tcp;
 
 using namespace boost::asio;
@@ -11,14 +12,14 @@ using namespace boost::asio;
 class RSUServer {
 public:
     RSUServer(io::io_context& io, uint16_t port)
-        : acceptor_(io, ip::tcp::endpoint(ip::tcp::v4(), port)) {
+        :io_(io),
+        acceptor_(io, ip::tcp::endpoint(ip::tcp::v4(), port)) {
         start_accept();
     }
 
 private:
     void start_accept() {
-        auto socket = std::make_shared<SecureSocket>(acceptor_.get_executor().context(), 
-                                                    SecureSocket::Mode::V2I);
+        auto socket = std::make_shared<SecureSocket>(io_,SecureSocket::Mode::V2I);
         acceptor_.async_accept(socket->socket(), 
             [this, socket](sys::error_code ec) {
                 if(!ec) {
@@ -34,11 +35,6 @@ private:
     }
 
     void handle_connection(SecureSocket::Ptr socket) {
-        socket->async_connect("", 0, [this, socket](bool success) { // 空参数表示服务端模式
-            if(!success) {
-                LOG_WARN << "Vehicle handshake failed";
-                return;
-            }
 
             // 注册车辆
             std::string vehicle_id = "VEH_" + std::to_string(rand());
@@ -55,10 +51,8 @@ private:
                 }
             });
 
-            // 定时发送路况信息
-            send_traffic_updates(socket);
-        });
-    }
+        }
+    
 
     void send_traffic_updates(SecureSocket::Ptr socket) {
         auto timer = std::make_shared<steady_timer>(acceptor_.get_executor());
@@ -75,7 +69,7 @@ private:
             send_traffic_updates(socket); // 循环发送
         });
     }
-
+    io::io_context& io_;
     ip::tcp::acceptor acceptor_;
     std::unordered_map<std::string, SecureSocket::Ptr> registered_vehicles_;
 };

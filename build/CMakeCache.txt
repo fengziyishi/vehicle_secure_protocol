@@ -167,7 +167,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=VehicleSecurityProtocol
+CMAKE_PROJECT_NAME:STATIC=VehicleSecureProtocol
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=C:/msys64/ucrt64/bin/ranlib.exe
@@ -252,11 +252,38 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Path to a file.
+GMSSL_INCLUDE_DIR:PATH=GMSSL_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+GMSSL_LIB:FILEPATH=C:/Program Files/GmSSL 3.1.1/lib/gmssl.lib
+
+//GmSSL安装路径
+GMSSL_ROOT:PATH=/opt/gmssl
+
 //The directory containing a CMake configuration file for GmSSL.
 GmSSL_DIR:PATH=GmSSL_DIR-NOTFOUND
 
 //No help, variable specified on the command line.
 GmSSL_ROOT:UNINITIALIZED=C:/GmSSL
+
+//Path to a library.
+LIB_EAY:FILEPATH=C:/msys64/ucrt64/lib/libcrypto.dll.a
+
+//Path to a file.
+OPENSSL_INCLUDE_DIR:PATH=C:/msys64/ucrt64/include
+
+//Path to a library.
+SSL_EAY:FILEPATH=C:/msys64/ucrt64/lib/libssl.dll.a
+
+//Value Computed by CMake
+VehicleSecureProtocol_BINARY_DIR:STATIC=D:/Users/Desktop/vehicle_secure_protocol/build
+
+//Value Computed by CMake
+VehicleSecureProtocol_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+VehicleSecureProtocol_SOURCE_DIR:STATIC=D:/Users/Desktop/vehicle_secure_protocol
 
 //Value Computed by CMake
 VehicleSecurityProtocol_BINARY_DIR:STATIC=D:/Users/Desktop/vehicle_secure_protocol/build
@@ -443,9 +470,17 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
-FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[C:/Users/Administrator/anaconda/Library/lib/cmake/Boost-1.82.0/BoostConfig.cmake][found components: system ][v1.82.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[C:/Users/Administrator/anaconda/Library/lib/cmake/Boost-1.82.0/BoostConfig.cmake][found components: system ][v1.82.0(1.66)]
+//Details about finding OpenSSL
+FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[C:/msys64/ucrt64/lib/libcrypto.dll.a][C:/msys64/ucrt64/include][ ][v3.4.1()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//ADVANCED property for variable: LIB_EAY
+LIB_EAY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: OPENSSL_INCLUDE_DIR
+OPENSSL_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SSL_EAY
+SSL_EAY-ADVANCED:INTERNAL=1
 //linker supports push/pop state
 _CMAKE_CXX_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //linker supports push/pop state

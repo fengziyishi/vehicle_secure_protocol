@@ -1,11 +1,11 @@
-#include "../include/network/secure_socket.h"
+#include "network/secure_socket.h"
 #include "crypto/sm2_wrapper.h"
 #include "crypto/sm4_wrapper.h"
 #include "crypto/sm3_wrapper.h"
 #include "utils/logger.h"
 #include <boost/asio.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ip/address.hpp>  // 必须包含这个头文件
+#include <boost/asio/ip/address.hpp>  
 #include <boost/endian/conversion.hpp>
 
 using namespace boost::asio;
@@ -32,26 +32,50 @@ void SecureSocket::async_connect(const std::string& ip, uint16_t port,
 }
 
 void SecureSocket::perform_handshake(std::function<void(bool)> callback) {
-    // 1. 交换公钥证书
+    // 1. 交换公钥证书和签名
     auto self = shared_from_this();
-    async_write(socket_, buffer(local_pub_key_), [this, self, callback](error_code ec, size_t) {
+    
+    // 1.1 生成本地公钥的签名
+    std::vector<uint8_t> local_pub_key_signature;
+    if (!SM2Wrapper::sign(local_priv_key_, local_pub_key_, local_pub_key_signature)) {
+        LOG_ERROR << "Sign local public key failed";
+        callback(false);
+        return;
+    }
+
+    // 1.2 发送本地公钥和签名
+    std::vector<uint8_t> handshake_data;
+    handshake_data.insert(handshake_data.end(), local_pub_key_.begin(), local_pub_key_.end());
+    handshake_data.insert(handshake_data.end(), local_pub_key_signature.begin(), local_pub_key_signature.end());
+
+    async_write(socket_, buffer(handshake_data), [this, self, callback](error_code ec, size_t) {
         if(ec) {
-            LOG_ERROR << "Send public key failed: " << ec.message();
+            LOG_ERROR << "Send public key and signature failed: " << ec.message();
             callback(false);
             return;
         }
 
-        // 接收对方公钥
-        auto peer_key = std::make_shared<std::vector<uint8_t>>(SM2Wrapper::PUBLIC_KEY_SIZE);
-        async_read(socket_, buffer(*peer_key), [this, self, peer_key, callback](error_code ec, size_t) {
+        // 接收对方公钥和签名
+        auto peer_handshake_data = std::make_shared<std::vector<uint8_t>>(SM2Wrapper::PUBLIC_KEY_SIZE + SM2Wrapper::SIGNATURE_SIZE);
+        async_read(socket_, buffer(*peer_handshake_data), [this, self, peer_handshake_data, callback](error_code ec, size_t) {
             if(ec) {
-                LOG_ERROR << "Receive public key failed: " << ec.message();
+                LOG_ERROR << "Receive public key and signature failed: " << ec.message();
+                callback(false);
+                return;
+            }
+
+            // 1.3 验证对方签名
+            std::vector<uint8_t> peer_pub_key(peer_handshake_data->begin(), peer_handshake_data->begin() + SM2Wrapper::PUBLIC_KEY_SIZE);
+            std::vector<uint8_t> peer_pub_key_signature(peer_handshake_data->begin() + SM2Wrapper::PUBLIC_KEY_SIZE, peer_handshake_data->end());
+
+            if (!SM2Wrapper::verify(peer_pub_key, peer_pub_key, peer_pub_key_signature)) {
+                LOG_ERROR << "Verify peer public key signature failed";
                 callback(false);
                 return;
             }
 
             // 2. 密钥协商
-            if(!SM2Wrapper::ecdh(local_priv_key_, *peer_key, session_key_)) {
+            if(!SM2Wrapper::ecdh(local_priv_key_, peer_pub_key, session_key_)) {
                 LOG_ERROR << "ECDH key exchange failed";
                 callback(false);
                 return;
